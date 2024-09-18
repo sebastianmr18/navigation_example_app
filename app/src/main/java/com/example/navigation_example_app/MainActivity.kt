@@ -1,5 +1,6 @@
 package com.example.navigation_example_app
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -59,7 +60,8 @@ class MainActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_item1 -> {
-                    Toast.makeText(this, "Item 1", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity2::class.java))
+                    drawerLayout.closeDrawer(navView)
                     true
                 }
 
