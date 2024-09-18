@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item1"
+            android:title="Actividad 2"/>
+        <item
+            android:id="@+id/nav_iten2"
+            android:title="Opción 2"/>
+    </group>
+    <item android:title="Titulo">
+        <menu>
+            <item
+                android:id="@+id/nav_item3"
+                android:title="Opción 1"/>
+            <item
+                android:id="@+id/nav_item4"
+                android:title="Opción 3"/>
+            <item
+                android:id="@+id/nav_item5"
+                android:title="Cerrar sesión"/>
+        </menu>
+    </item>
+</menu>
