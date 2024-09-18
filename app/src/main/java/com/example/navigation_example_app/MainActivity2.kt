@@ -23,7 +23,8 @@ class MainActivity2 : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.contentToolbar.toolbar.title = "Ventana 2"
-        binding.contentToolbar.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.contentToolbar.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed() }
         binding.contentToolbar.toolbar.setOnMenuItemClickListener { item  ->
             when(item.itemId){
                 R.id.newGroupMenu -> {
