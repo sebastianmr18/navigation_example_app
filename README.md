@@ -111,3 +111,108 @@ class MainActivity : AppCompatActivity() {
         }
     }
 ```
+### Navigation Drawer:
+En la carpeta 'layout' se crea un archivo header_drawer.xml. 
+Consejo: 
+* Usar LinearLayout
+```bash
+<!--header_drawer.xml-->
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navigationHeader"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:padding="16dp"
+    android:background="@color/black">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sebastian Muñoz"
+        android:paddingTop="16dp"
+        android:textColor="@color/white"/>
+
+
+</LinearLayout>
+```
+En el archivo activity_main.xml, se invoca DrawerLayout, y dentro de NavigationView se inyecta el headerLayout:
+```bash
+<!--activity_main.xml-_>
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+...
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+        <!--tools:openDrawer="start">-->
+
+        <include
+            android:id="@+id/contentToolbar"
+            layout="@layout/toolbar" />
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/navigation_header"
+            app:menu="@menu/navigation_menu"/>
+
+
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
+```
+Por ultimo, el archivo MainActivity.kt se configura así:
+```bash
+class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        ...
+        setupDrawer(toolbar)
+        ...
+    }
+    private fun setupDrawer(toolbar: Toolbar) {
+        val drawerLayout = binding.drawerLayout
+        val navView = binding.navView
+
+        //Esta linea aplica el color original a los iconos
+        navView.itemIconTintList = null
+
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer
+        )
+        // Aplicar color al drawable
+        toggle.drawerArrowDrawable.color = ContextCompat.getColor(this, R.color.white)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        //Configuracón del listener del Navigation Drawer
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_item1 -> {
+                    startActivity(Intent(this, MainActivity2::class.java))
+                    drawerLayout.closeDrawer(navView)
+                    true
+                }
+
+                R.id.nav_iten2 -> {
+                    Toast.makeText(this, "Item 2", Toast.LENGTH_SHORT).show()
+                    true
+                } else -> false
+            }
+        }
+    }
+```
